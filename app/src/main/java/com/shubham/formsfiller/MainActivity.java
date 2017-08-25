@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
             = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
     public final String URL="https://docs.google.com/forms/d/e/1FAIpQLSeVFz6mJuILeTVoYNXxno-v6DRCnem4ST5jj2c2GAPZUTW3CA/formResponse";
     //input element ids found from the live form page
+    //as demonstrated in the tutorial
     public final String NAME_KEY="entry.231938939";
     public final String BRANCH_KEY="entry.930750165";
     public final String EMAIL_KEY="entry.1736661395";
@@ -48,11 +49,11 @@ public class MainActivity extends AppCompatActivity {
         post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PostingData();
+                validateAndPost();
             }
         });
     }
-    public void PostingData()
+    public void validateAndPost()
     {
         post.setEnabled(false);
         if(validate())
@@ -112,7 +113,6 @@ public class MainActivity extends AppCompatActivity {
     {
         @Override
         protected Boolean doInBackground(String...contactData) {
-            Boolean result = true;
             String url = contactData[0];
             String name = contactData[1];
             String branch = contactData[2];
@@ -120,8 +120,7 @@ public class MainActivity extends AppCompatActivity {
             String year = contactData[4];
             String mobile = contactData[5];
             String message = contactData[6];
-            String postBody="";
-
+            String postBody;
             try {
                 //all values must be URL encoded to make sure that special characters like & | ",etc.
                 //do not cause problems
@@ -132,17 +131,8 @@ public class MainActivity extends AppCompatActivity {
                         "&" + MOBILE_KEY + "=" + URLEncoder.encode(mobile,"UTF-8")+
                         "&" + MESSAGE_KEY + "=" + URLEncoder.encode(message,"UTF-8");
             } catch (UnsupportedEncodingException ex) {
-                result=false;
+                return false;
             }
-            /*
-            //If you want to use HttpRequest class from http://stackoverflow.com/a/2253280/1261816
-            try {
-			HttpRequest httpRequest = new HttpRequest();
-			httpRequest.sendPost(url, postBody);
-		}catch (Exception exception){
-			result = false;
-		}
-            */
             try{
                 //Create OkHttpClient for sending request
                 OkHttpClient client = new OkHttpClient();
@@ -153,18 +143,18 @@ public class MainActivity extends AppCompatActivity {
                         .post(body)
                         .build();
                 //Send the request
-                Response response = client.newCall(request).execute();
+                client.newCall(request).execute();
             }catch (IOException exception){
-                result=false;
+                return false;
             }
-            return result;
+            //if reached here means all is good
+            return true;
         }
         @Override
         protected void onPostExecute(Boolean result){
             //Print Success or failure message accordingly
             progressDialog.dismiss();
             Toast.makeText(getApplicationContext(),result?"Message successfully sent!":"There was some error in sending message. Please try again after some time.", Toast.LENGTH_LONG).show();
-            post.setEnabled(true);
         }
     }
 }
