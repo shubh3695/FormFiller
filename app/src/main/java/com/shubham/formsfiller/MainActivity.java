@@ -20,30 +20,30 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
-    TextInputEditText namet,brancht,emailt,yeart,mobilet,msgt;
+    TextInputEditText nameText,branchText,emailText,yearText,mobileText,msgText;
     String name,branch,email,year,mobile,message;
     AppCompatButton post;
     ProgressDialog progressDialog;
-    public static final MediaType FORM_DATA_TYPE
+    public final MediaType FORM_DATA_TYPE
             = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
-    public static final String URL="https://docs.google.com/forms/d/e/1FAIpQLSeVFz6mJuILeTVoYNXxno-v6DRCnem4ST5jj2c2GAPZUTW3CA/formResponse";
+    public final String URL="https://docs.google.com/forms/d/e/1FAIpQLSeVFz6mJuILeTVoYNXxno-v6DRCnem4ST5jj2c2GAPZUTW3CA/formResponse";
     //input element ids found from the live form page
-    public static final String NAME_KEY="entry.231938939";
-    public static final String BRANCH_KEY="entry.930750165";
-    public static final String EMAIL_KEY="entry.1736661395";
-    public static final String YEAR_KEY="entry.1457720457";
-    public static final String MOBILE_KEY="entry.562157188";
-    public static final String MESSAGE_KEY="entry.1273253549";
+    public final String NAME_KEY="entry.231938939";
+    public final String BRANCH_KEY="entry.930750165";
+    public final String EMAIL_KEY="entry.1736661395";
+    public final String YEAR_KEY="entry.1457720457";
+    public final String MOBILE_KEY="entry.562157188";
+    public final String MESSAGE_KEY="entry.1273253549";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        namet=(TextInputEditText)findViewById(R.id.inp_name);
-        brancht=(TextInputEditText)findViewById(R.id.inp_branch);
-        emailt=(TextInputEditText)findViewById(R.id.inp_email);
-        yeart=(TextInputEditText)findViewById(R.id.inp_year);
-        mobilet=(TextInputEditText)findViewById(R.id.inp_number);
-        msgt=(TextInputEditText)findViewById(R.id.input_query);
+        nameText=(TextInputEditText)findViewById(R.id.inp_name);
+        branchText=(TextInputEditText)findViewById(R.id.inp_branch);
+        emailText=(TextInputEditText)findViewById(R.id.inp_email);
+        yearText=(TextInputEditText)findViewById(R.id.inp_year);
+        mobileText=(TextInputEditText)findViewById(R.id.inp_number);
+        msgText=(TextInputEditText)findViewById(R.id.input_query);
         post=(AppCompatButton) findViewById(R.id.btn_post);
         post.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,39 +71,39 @@ public class MainActivity extends AppCompatActivity {
     public boolean validate()
     {
         boolean valid = true;
-        name=namet.getText().toString();
-        branch=brancht.getText().toString();
-        email = emailt.getText().toString();
-        year=yeart.getText().toString();
-        mobile=mobilet.getText().toString();
-        message=msgt.getText().toString();
+        name=nameText.getText().toString();
+        branch=branchText.getText().toString();
+        email = emailText.getText().toString();
+        year=yearText.getText().toString();
+        mobile=mobileText.getText().toString();
+        message=msgText.getText().toString();
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            emailt.setError("enter a valid email address");
+            emailText.setError("enter a valid email address");
             valid = false;
         }
         if(name.isEmpty() || name.length()<4)
         {
-            namet.setError("Name?");
+            nameText.setError("Name?");
             valid=false;
         }
         if(branch.isEmpty())
         {
-            brancht.setError("Branch?");
+            branchText.setError("Branch?");
             valid=false;
         }
         if(year.isEmpty())
         {
-            yeart.setError("Year?");
+            yearText.setError("Year?");
             valid=false;
         }
         if(!mobile.isEmpty() && mobile.length()!=10)
         {
-            mobilet.setError("Must be 10 digits");
+            mobileText.setError("Must be 10 digits");
             valid=false;
         }
         if(message.isEmpty())
         {
-            msgt.setError("Empty?");
+            msgText.setError("Empty?");
             valid=false;
         }
         return valid;
